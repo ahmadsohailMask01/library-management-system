@@ -10,60 +10,62 @@ import {
   Select,
   Stack,
   TextField,
-  Typography
-} from "@mui/material";
-import PropTypes from "prop-types";
-import axios from "axios";
-import toast from "react-hot-toast";
-import { useEffect, useState } from "react";
-import Iconify from "../../../components/iconify";
-import { useAuth } from "../../../hooks/useAuth";
+  Typography,
+} from '@mui/material';
+import PropTypes from 'prop-types';
+import axios from 'axios';
+import toast from 'react-hot-toast';
+import { useEffect, useState } from 'react';
+import Iconify from '../../../components/iconify';
+import { useAuth } from '../../../hooks/useAuth';
 
 const BorrowalForm = ({
-                        handleAddBorrowal,
-                        handleUpdateBorrowal,
-                        isUpdateForm,
-                        isModalOpen,
-                        handleCloseModal,
-                        borrowal,
-                        setBorrowal,
-                      }) => {
-  const {user} = useAuth();
+  handleAddBorrowal,
+  handleUpdateBorrowal,
+  isUpdateForm,
+  isModalOpen,
+  handleCloseModal,
+  borrowal,
+  setBorrowal,
+}) => {
+  const { user } = useAuth();
   const [members, setMembers] = useState([]);
   const [books, setBooks] = useState([]);
 
   const getAllMembers = () => {
-    axios.get('http://localhost:8080/api/user/getAllMembers')
+    axios
+      .get('http://localhost:8080/api/user/getAllMembers')
       .then((response) => {
         // handle success
-        console.log(response.data)
+        console.log(response.data);
         if (user.isAdmin) {
-          setMembers(response.data.membersList)
+          setMembers(response.data.membersList);
         } else {
-          setMembers(response.data.membersList.filter((member) => user._id === member._id))
+          setMembers(response.data.membersList.filter((member) => user._id === member._id));
         }
-        setBorrowal({...borrowal, memberId: user._id})
+        setBorrowal({ ...borrowal, memberId: user._id });
       })
       .catch((error) => {
         // handle error
-        toast.error("Error fetching members")
+        toast.error('Error fetching members');
         console.log(error);
-      })
-  }
+      });
+  };
 
   const getAllBooks = () => {
-    axios.get('http://localhost:8080/api/book/getAll')
+    axios
+      .get('http://localhost:8080/api/book/getAll')
       .then((response) => {
         // handle success
-        console.log(response.data)
-        setBooks(response.data.booksList)
+        console.log(response.data);
+        setBooks(response.data.booksList);
       })
       .catch((error) => {
         // handle error
-        toast.error("Error fetching books")
+        toast.error('Error fetching books');
         console.log(error);
-      })
-  }
+      });
+  };
 
   // Load data on initial page load
   useEffect(() => {
@@ -84,7 +86,6 @@ const BorrowalForm = ({
     p: 4,
   };
 
-
   return (
     <Modal
       open={isModalOpen}
@@ -98,11 +99,9 @@ const BorrowalForm = ({
             {isUpdateForm ? <span>Update</span> : <span>Add</span>} borrowal
           </Typography>
           <Stack spacing={3} paddingY={2}>
-
-
-            <Grid container spacing={0} sx={{paddingBottom: "4px"}}>
+            <Grid container spacing={0} sx={{ paddingBottom: '4px' }}>
               <Grid item xs={12} md={6} paddingRight={1}>
-                <FormControl sx={{m: 0}} fullWidth>
+                <FormControl sx={{ m: 0 }} fullWidth>
                   <InputLabel id="member-label">Member</InputLabel>
                   <Select
                     required
@@ -111,16 +110,18 @@ const BorrowalForm = ({
                     id="member"
                     value={borrowal.memberId}
                     label="Member"
-                    onChange={(e) => setBorrowal({...borrowal, memberId: e.target.value})}>
-                    {
-                      members.map((member) => <MenuItem key={member._id}
-                                                        value={member._id}>{member.name}</MenuItem>)
-                    }
+                    onChange={(e) => setBorrowal({ ...borrowal, memberId: e.target.value })}
+                  >
+                    {members.map((member) => (
+                      <MenuItem key={member._id} value={member._id}>
+                        {member.name}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
               </Grid>
               <Grid item xs={12} md={6} paddingLeft={1}>
-                <FormControl sx={{m: 0}} fullWidth>
+                <FormControl sx={{ m: 0 }} fullWidth>
                   <InputLabel id="author-label">Book</InputLabel>
                   <Select
                     required
@@ -128,45 +129,87 @@ const BorrowalForm = ({
                     id="book"
                     value={borrowal.bookId}
                     label="Book"
-                    onChange={(e) => setBorrowal({...borrowal, bookId: e.target.value})}>
-                    {
-                      books.filter((book) => book.isAvailable).map((book) => <MenuItem key={book._id}
-                                                 value={book._id}>{book.name}</MenuItem>)
-                    }
+                    onChange={(e) => setBorrowal({ ...borrowal, bookId: e.target.value })}
+                  >
+                    {books
+                      .filter((book) => book.isAvailable)
+                      .map((book) => (
+                        <MenuItem key={book._id} value={book._id}>
+                          {book.name}
+                        </MenuItem>
+                      ))}
                   </Select>
                 </FormControl>
               </Grid>
             </Grid>
 
-            <Grid container spacing={0} sx={{paddingBottom: "4px"}}>
+            <Grid container spacing={0} sx={{ paddingBottom: '4px' }}>
               <Grid item xs={12} md={6} paddingRight={1}>
-                <TextField fullWidth name="borrowedDate" label="Borrowed date" type="date" value={borrowal.borrowedDate}
-                           required
-                           InputLabelProps={{shrink: true}}
-                           onChange={(e) => setBorrowal({...borrowal, borrowedDate: e.target.value})}/>
+                <TextField
+                  fullWidth
+                  name="borrowedDate"
+                  label="Borrowed date"
+                  type="date"
+                  value={borrowal.borrowedDate}
+                  required
+                  InputLabelProps={{ shrink: true }}
+                  onChange={(e) => setBorrowal({ ...borrowal, borrowedDate: e.target.value })}
+                />
               </Grid>
               <Grid item xs={12} md={6} paddingLeft={1}>
-                <TextField fullWidth name="dueDate" label="Due date" type="date" value={borrowal.dueDate} required
-                           InputLabelProps={{shrink: true}}
-                           onChange={(e) => setBorrowal({...borrowal, dueDate: e.target.value})}/>
+                <TextField
+                  fullWidth
+                  name="dueDate"
+                  label="Due date"
+                  type="date"
+                  value={borrowal.dueDate}
+                  required
+                  InputLabelProps={{ shrink: true }}
+                  onChange={(e) => setBorrowal({ ...borrowal, dueDate: e.target.value })}
+                />
               </Grid>
             </Grid>
+            {user.isAdmin && (
+              <label
+                htmlFor="status"
+                style={{
+                  display: `flex`,
+                  flexDirection: `row`,
+                  gap: `2%`,
+                  justifyContent: `center`,
+                  alignItems: `center`,
+                }}
+              >
+                Status:
+                <select name="status" id="status" style={{ padding: `1%`, width: `100%` }}>
+                  <option value="reserved">Reserved</option>
+                  <option value="not reserved">Not Reserved</option>
+                  <option value="overdue">Overdue</option>
+                </select>
+              </label>
+            )}
 
-            <TextField fullWidth name="status" label="Status" type="text" value={borrowal.status}
-                       onChange={(e) => setBorrowal({...borrowal, status: e.target.value})}/>
-
-
-            <br/>
+            <br />
             <Box textAlign="center">
               <Box textAlign="center" paddingBottom={2}>
-                <Button size="large" variant="contained"
-                        onClick={isUpdateForm ? handleUpdateBorrowal : handleAddBorrowal}
-                        startIcon={<Iconify icon="bi:check-lg"/>} style={{marginRight: "12px"}}>
+                <Button
+                  size="large"
+                  variant="contained"
+                  onClick={isUpdateForm ? handleUpdateBorrowal : handleAddBorrowal}
+                  startIcon={<Iconify icon="bi:check-lg" />}
+                  style={{ marginRight: '12px' }}
+                >
                   Submit
                 </Button>
 
-                <Button size="large" color="inherit" variant="contained" onClick={handleCloseModal}
-                        startIcon={<Iconify icon="charm:cross"/>} style={{marginLeft: "12px"}}>
+                <Button
+                  size="large"
+                  color="inherit"
+                  variant="contained"
+                  onClick={handleCloseModal}
+                  startIcon={<Iconify icon="charm:cross" />}
+                  style={{ marginLeft: '12px' }}
+                >
                   Cancel
                 </Button>
               </Box>
@@ -176,7 +219,7 @@ const BorrowalForm = ({
       </Box>
     </Modal>
   );
-}
+};
 
 BorrowalForm.propTypes = {
   isUpdateForm: PropTypes.bool,
@@ -185,7 +228,7 @@ BorrowalForm.propTypes = {
   borrowal: PropTypes.object,
   setBorrowal: PropTypes.func,
   handleAddBorrowal: PropTypes.func,
-  handleUpdateBorrowal: PropTypes.func
+  handleUpdateBorrowal: PropTypes.func,
 };
 
-export default BorrowalForm
+export default BorrowalForm;

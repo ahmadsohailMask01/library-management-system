@@ -1,35 +1,35 @@
-import {FiBookOpen, FiCheckCircle, FiHome, FiList, FiLock, FiUsers} from "react-icons/fi";
+import { FiBookOpen, FiCheckCircle, FiHome, FiList, FiLock, FiUsers } from 'react-icons/fi';
 
 const navConfig = [
   {
     title: 'Dashboard',
     path: '/dashboard',
-    icon: <FiHome/>,
+    icon: <FiHome />,
   },
   {
-    title: 'Books',
+    title: 'Books & Journals',
     path: '/books',
-    icon: <FiBookOpen/>,
+    icon: <FiBookOpen />,
   },
   {
     title: 'Authors',
     path: '/authors',
-    icon: <FiUsers/>,
+    icon: <FiUsers />,
   },
   {
     title: 'Genres',
     path: '/genres',
-    icon: <FiList/>,
+    icon: <FiList />,
   },
   {
     title: 'Borrowals',
     path: '/borrowals',
-    icon: <FiCheckCircle/>,
+    icon: <FiCheckCircle />,
   },
   {
     title: 'Users',
     path: '/users',
-    icon: <FiLock/>,
+    icon: <FiLock />,
   },
 ];
 
