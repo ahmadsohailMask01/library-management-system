@@ -182,8 +182,8 @@ const BorrowalForm = ({
               >
                 Status:
                 <select name="status" id="status" style={{ padding: `1%`, width: `100%` }}>
-                  <option value="reserved">Reserved</option>
-                  <option value="not reserved">Not Reserved</option>
+                  <option value="approved">Approved</option>
+                  <option value="rejected">Rejected</option>
                   <option value="overdue">Overdue</option>
                 </select>
               </label>
