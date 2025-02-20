@@ -1,0 +1,63 @@
+.mainDiv {
+  display: flex;
+  margin-top: 1%;
+  flex-direction: row;
+  justify-content: center;
+  gap: 5%;
+  align-items: center;
+}
+.cardButtonDiv {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid darkgray;
+  border-radius: 20px;
+  padding: 1%;
+  background-color: #1a5c85;
+  color: white;
+  box-shadow: 0px 0px 10px lightgray;
+  width: 50%;
+}
+
+.modal {
+  display: flex;
+  padding: 10%;
+  border-radius: 10px;
+  justify-content: space-between;
+  background-color: #1a5c85;
+  color: white;
+  align-items: center;
+  gap: 3%;
+}
+@media screen and (max-width: 650px) {
+  .mainDiv {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    align-items: center;
+    justify-content: center;
+  }
+  .cardButtonDiv {
+    width: 70%;
+    margin-bottom: 2%;
+    padding: 2%;
+  }
+  .modal {
+    flex-direction: column;
+    row-gap: 10px;
+  }
+  .content {
+    font-size: 15px;
+  }
+}
+@media screen and (max-width: 400px) {
+  .content {
+    font-size: 13px;
+  }
+  .cardButtonDiv {
+    width: 90%;
+    padding: 3%;
+  }
+}

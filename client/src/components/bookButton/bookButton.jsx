@@ -4,6 +4,7 @@ import 'reactjs-popup/dist/index.css';
 import emailjs from '@emailjs/browser';
 import toast, { Toaster } from 'react-hot-toast';
 import { useAuth } from '../../hooks/useAuth';
+import styles from '../../styles/button.module.css';
 
 const BookButton = ({ url, handleFileDownload, buttonStyle, bookName }) => {
   const { user } = useAuth();
@@ -31,22 +32,10 @@ const BookButton = ({ url, handleFileDownload, buttonStyle, bookName }) => {
   return (
     <>
       <Toaster position="top-center" reverseOrder={false} />
-      <Popup trigger={<button style={buttonStyle}>Get</button>} modal nested>
+      <Popup trigger={<button style={buttonStyle}>Get</button>} modal nested className={styles.popup}>
         {(close) => (
-          <div
-            className="modal"
-            style={{
-              display: 'flex',
-              padding: `10%`,
-              borderRadius: `10px`,
-              justifyContent: `space-between`,
-              backgroundColor: `#1a5c85`,
-              color: `white`,
-              alignItems: `center`,
-              gap: `3%`,
-            }}
-          >
-            <div className="content" style={{ textAlign: `justify` }}>
+          <div className={styles.modal}>
+            <div className={styles.content} style={{ textAlign: `justify` }}>
               Thank you for your request to borrow {bookName}. Before we proceed, we would like to confirm if you are
               sure about your request? If everything looks good, click 'Send'. Your request will be processed. If not,
               you can 'Close' this dialog.
@@ -56,6 +45,7 @@ const BookButton = ({ url, handleFileDownload, buttonStyle, bookName }) => {
                 type="submit"
                 onClick={() => handleSendEmail()}
                 style={{
+                  display: `flex`,
                   cursor: `pointer`,
                   padding: `20%`,
                   backgroundColor: `#00d341`,
@@ -75,6 +65,7 @@ const BookButton = ({ url, handleFileDownload, buttonStyle, bookName }) => {
                 type="close"
                 onClick={() => close()}
                 style={{
+                  display: `flex`,
                   cursor: `pointer`,
                   padding: `20%`,
                   backgroundColor: `#ff474c`,
