@@ -149,8 +149,8 @@ const BorrowalForm = ({
                   fullWidth
                   name="borrowedDate"
                   label="Borrowed date"
-                  type="date"
-                  value={borrowal.borrowedDate}
+                  type="text"
+                  value={String(borrowal.borrowedDate).split('T')[0]}
                   required
                   InputLabelProps={{ shrink: true }}
                   onChange={(e) => setBorrowal({ ...borrowal, borrowedDate: e.target.value })}
@@ -161,8 +161,8 @@ const BorrowalForm = ({
                   fullWidth
                   name="dueDate"
                   label="Due date"
-                  type="date"
-                  value={borrowal.dueDate}
+                  type="text"
+                  value={String(borrowal.dueDate).split('T')[0]}
                   required
                   InputLabelProps={{ shrink: true }}
                   onChange={(e) => setBorrowal({ ...borrowal, dueDate: e.target.value })}

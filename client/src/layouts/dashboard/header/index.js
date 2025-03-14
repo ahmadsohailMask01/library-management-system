@@ -1,12 +1,14 @@
 import PropTypes from 'prop-types';
 // @mui
-import {styled} from '@mui/material/styles';
-import {AppBar, Box, IconButton, Stack, Toolbar} from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { AppBar, Box, IconButton, Stack, Toolbar } from '@mui/material';
 // utils
-import {bgBlur} from '../../../utils/cssStyles';
+import zIndex from '@mui/material/styles/zIndex';
+import { bgBlur } from '../../../utils/cssStyles';
 // components
 import Iconify from '../../../components/iconify';
 //
+
 import AccountPopover from './AccountPopover';
 
 // ----------------------------------------------------------------------
@@ -38,7 +40,6 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
 Header.propTypes = {
   onOpenNav: PropTypes.func,
 };
-
 
 export default function Header({ onOpenNav }) {
   return (

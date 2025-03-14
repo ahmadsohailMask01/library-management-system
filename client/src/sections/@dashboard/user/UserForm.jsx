@@ -13,10 +13,23 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import Iconify from '../../../components/iconify';
 
-const UserForm = ({ isUpdateForm, isModalOpen, handleCloseModal, user, setUser, handleAddUser, handleUpdateUser }) => {
+const UserForm = ({
+  isUpdateForm,
+  isModalOpen,
+  handleCloseModal,
+  user,
+  setUser,
+  handleAddUser,
+  handleUpdateUser,
+  message,
+  isValid,
+  setMessage,
+  setIsValid,
+}) => {
   const style = {
     position: 'absolute',
     top: '50%',
@@ -136,6 +149,7 @@ const UserForm = ({ isUpdateForm, isModalOpen, handleCloseModal, user, setUser, 
               required
               onChange={(e) => setUser({ ...user, password: e.target.value })}
             />
+            {message && <p className={`mt-2 text-sm ${isValid ? 'text-green-600' : 'text-red-600'}`}>{message}</p>}
 
             <br />
             <Box textAlign="center">

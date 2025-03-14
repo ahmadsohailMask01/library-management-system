@@ -97,24 +97,45 @@ const UserPage = () => {
       });
   };
 
+  const [message, setMessage] = useState('');
+  const [isValid, setIsValid] = useState(false);
+
+  const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+  const validatePassword = () => {
+    if (strongPasswordRegex.test(user.password)) {
+      setMessage('Strong Password ✅');
+      setIsValid(true);
+      return true;
+    }
+    setMessage(
+      'Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, a number, and a special character.'
+    );
+    setIsValid(false);
+    return false;
+  };
+
   const addUser = () => {
-    axios
-      .post(apiUrl(routes.USER, methods.POST), user)
-      .then((response) => {
-        console.log(response.data);
-        toast.success('User added');
-        handleCloseModal();
-        getAllUsers();
-        clearForm();
-      })
-      .catch((error) => {
-        if (error.response.status === 403) {
-          toast.error('User already exists');
-        } else {
-          console.log(error);
-          toast.error('Something went wrong, please try again');
-        }
-      });
+    const check = validatePassword();
+    if (check) {
+      axios
+        .post(apiUrl(routes.USER, methods.POST), user)
+        .then((response) => {
+          console.log(response.data);
+          toast.success('User added');
+          handleCloseModal();
+          getAllUsers();
+          clearForm();
+        })
+        .catch((error) => {
+          if (error.response.status === 403) {
+            toast.error('User already exists');
+          } else {
+            console.log(error);
+            toast.error('Something went wrong, please try again');
+          }
+        });
+    }
   };
 
   const updateUser = () => {
@@ -218,7 +239,7 @@ const UserPage = () => {
 
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h3" gutterBottom>
+          <Typography variant="h3" gutterBottom style={{ position: `relative`, zIndex: `10000` }}>
             Users
           </Typography>
           <Button
@@ -356,6 +377,10 @@ const UserPage = () => {
         setUser={setUser}
         handleAddUser={addUser}
         handleUpdateUser={updateUser}
+        message={message}
+        setMessage={setMessage}
+        isValid={isValid}
+        setIsValid={setIsValid}
       />
 
       <UserDialog
