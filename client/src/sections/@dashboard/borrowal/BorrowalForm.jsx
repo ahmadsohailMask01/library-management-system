@@ -18,6 +18,7 @@ import toast from 'react-hot-toast';
 import { useEffect, useState } from 'react';
 import Iconify from '../../../components/iconify';
 import { useAuth } from '../../../hooks/useAuth';
+import SelectOpt from '../../../components/Select';
 
 const BorrowalForm = ({
   handleAddBorrowal,
@@ -170,23 +171,41 @@ const BorrowalForm = ({
               </Grid>
             </Grid>
             {user.isAdmin && (
-              <label
-                htmlFor="status"
-                style={{
-                  display: `flex`,
-                  flexDirection: `row`,
-                  gap: `2%`,
-                  justifyContent: `center`,
-                  alignItems: `center`,
-                }}
-              >
-                Status:
-                <select name="status" id="status" style={{ padding: `1%`, width: `100%` }}>
-                  <option value="approved">Approved</option>
-                  <option value="rejected">Rejected</option>
-                  <option value="overdue">Overdue</option>
-                </select>
-              </label>
+              <>
+                <SelectOpt
+                  label={'Select User Type'}
+                  options={['--Select options--', 'Teacher', 'Student']}
+                  style={{ padding: `1%` }}
+                  value={borrowal.memberType}
+                  required
+                  onChange={(e) => setBorrowal({ ...borrowal, memberType: e.target.value })}
+                />
+                <label
+                  htmlFor="status"
+                  style={{
+                    display: `flex`,
+                    flexDirection: `row`,
+                    gap: `2%`,
+                    justifyContent: `center`,
+                    alignItems: `center`,
+                  }}
+                >
+                  Status:
+                  <select
+                    name="status"
+                    id="status"
+                    value={borrowal.status}
+                    required
+                    onChange={(e) => setBorrowal({ ...borrowal, status: e.target.value })}
+                    style={{ padding: `1%`, width: `100%` }}
+                  >
+                    <option value={null}>--Select options--</option>
+                    <option value="Approved">Approved</option>
+                    <option value="Rejected">Rejected</option>
+                    <option value="Overdue">Overdue</option>
+                  </select>
+                </label>
+              </>
             )}
 
             <br />
