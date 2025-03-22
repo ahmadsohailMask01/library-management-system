@@ -172,14 +172,6 @@ const BorrowalForm = ({
             </Grid>
             {user.isAdmin && (
               <>
-                <SelectOpt
-                  label={'Select User Type'}
-                  options={['--Select options--', 'Teacher', 'Student']}
-                  style={{ padding: `1%` }}
-                  value={borrowal.memberType}
-                  required
-                  onChange={(e) => setBorrowal({ ...borrowal, memberType: e.target.value })}
-                />
                 <label
                   htmlFor="status"
                   style={{

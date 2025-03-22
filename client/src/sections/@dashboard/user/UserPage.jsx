@@ -42,6 +42,7 @@ const TABLE_HEAD = [
   { id: 'dob', label: 'DOB', alignRight: false },
   { id: 'email', label: 'Email', alignRight: false },
   { id: 'phone', label: 'Phone', alignRight: false },
+  { id: 'memberType', label: 'Member Type', alignRight: false },
   { id: 'role', label: 'Role', alignRight: false },
   { id: '', label: '', alignRight: false },
 ];
@@ -66,6 +67,7 @@ const UserPage = () => {
     phone: '',
     isAdmin: false,
     photoUrl: '',
+    memberType: '',
   });
   const [users, setUsers] = useState([]);
   const [selectedUserId, setSelectedUserId] = useState(null);
@@ -185,6 +187,7 @@ const UserPage = () => {
       phone: '',
       isAdmin: false,
       photoUrl: '',
+      memberType: '',
     });
   };
 
@@ -285,6 +288,8 @@ const UserPage = () => {
                           <TableCell align="left">{user.email}</TableCell>
 
                           <TableCell align="left">{user.phone}</TableCell>
+
+                          <TableCell align="left">{user.memberType}</TableCell>
 
                           <TableCell align="left">
                             {user.isAdmin ? (

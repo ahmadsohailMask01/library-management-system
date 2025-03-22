@@ -41,7 +41,6 @@ const TABLE_HEAD = [
   { id: 'borrowedDate', label: 'Borrowed On', alignRight: false },
   { id: 'dueDate', label: 'Due On', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
-  { id: 'memberType', label: 'Member Type', alignRight: false },
   { id: '', label: '', alignRight: true },
   { id: '', label: '', alignRight: false },
 ];
@@ -66,7 +65,6 @@ const BorrowalPage = () => {
     borrowedDate: '',
     dueDate: '',
     status: '',
-    memberType: '',
   });
   const [borrowals, setBorrowals] = useState([]);
   const [selectedBorrowalId, setSelectedBorrowalId] = useState(null);
@@ -164,7 +162,6 @@ const BorrowalPage = () => {
       borrowedDate: '',
       dueDate: '',
       status: '',
-      memberType: '',
     });
   };
 
@@ -264,8 +261,6 @@ const BorrowalPage = () => {
                           <TableCell align="left">{new Date(borrowal.dueDate).toLocaleDateString('en-US')}</TableCell>
 
                           <TableCell align="left">{borrowal.status}</TableCell>
-
-                          <TableCell align="left">{borrowal.memberType}</TableCell>
 
                           <TableCell align="left">
                             {new Date(borrowal.dueDate) < new Date() && (

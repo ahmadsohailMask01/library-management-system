@@ -21,10 +21,6 @@ const borrowalSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
-  memberType: {
-    type: String,
-    required: true,
-  },
 });
 
 module.exports = mongoose.model("Borrowal", borrowalSchema);
