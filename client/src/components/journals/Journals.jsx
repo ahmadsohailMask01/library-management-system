@@ -3,7 +3,7 @@ import BookButton from '../bookButton/bookButton';
 import styles from '../../styles/button.module.css';
 
 const Journals = () => {
-  const ComputerFileURL = 'http://localhost:3000/Computer_Journal.pdf[';
+  const ComputerFileURL = 'http://localhost:3000/Computer_Journal.pdf';
   const MathsFileURL = 'http://localhost:3000/Graduation_Maths.pdf';
   const ProgrammingFileURL = 'http://localhost:3000/Computer_Programming.pdf';
   const handlePDFDownload = (url) => {

@@ -141,20 +141,23 @@ const UserPage = () => {
   };
 
   const updateUser = () => {
-    axios
-      .put(apiUrl(routes.USER, methods.PUT, selectedUserId), user)
-      .then((response) => {
-        console.log(response.data);
-        toast.success('User updated');
-        handleCloseModal();
-        handleCloseMenu();
-        getAllUsers();
-        clearForm();
-      })
-      .catch((error) => {
-        console.log(error);
-        toast.error('Something went wrong, please try again');
-      });
+    const check = validatePassword();
+    if (check) {
+      axios
+        .put(apiUrl(routes.USER, methods.PUT, selectedUserId), user)
+        .then((response) => {
+          console.log(response.data);
+          toast.success('User updated');
+          handleCloseModal();
+          handleCloseMenu();
+          getAllUsers();
+          clearForm();
+        })
+        .catch((error) => {
+          console.log(error);
+          toast.error('Something went wrong, please try again');
+        });
+    }
   };
 
   const deleteUser = (userId) => {
@@ -242,7 +245,7 @@ const UserPage = () => {
 
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h3" gutterBottom style={{ position: `relative`, zIndex: `10000` }}>
+          <Typography variant="h3" gutterBottom style={{}}>
             Users
           </Typography>
           <Button

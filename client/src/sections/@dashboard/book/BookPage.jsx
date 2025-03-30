@@ -18,6 +18,7 @@ import {
 } from '@mui/material';
 import { Alert } from '@mui/lab';
 import { styled } from '@mui/material/styles';
+import DownloadableBooks from '../../../components/dowloadableBooks/DownloadableBooks';
 import Journals from '../../../components/journals/Journals';
 import { useAuth } from '../../../hooks/useAuth';
 
@@ -186,6 +187,14 @@ const BookPage = () => {
           </Typography>
         </Stack>
         <Journals />
+      </Container>
+      <Container style={{ marginBottom: `3%` }}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+          <Typography variant="h3" sx={{ mb: 5 }}>
+            Downloadable Books
+          </Typography>
+        </Stack>
+        <DownloadableBooks />
       </Container>
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>

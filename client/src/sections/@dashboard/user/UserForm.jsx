@@ -150,14 +150,16 @@ const UserForm = ({
               required
               onChange={(e) => setUser({ ...user, password: e.target.value })}
             />
-            <SelectOpt
-              label={'Choose Member Type:'}
-              value={user.memberType}
-              options={['--Select Options--', 'Teacher', 'Student']}
-              style={{ padding: `2%`, border: `1px solid lightgray` }}
-              onChange={(e) => setUser({ ...user, memberType: e.target.value })}
-            />
-            {message && <p className={`mt-2 text-sm ${isValid ? 'text-green-600' : 'text-red-600'}`}>{message}</p>}
+            {user.isAdmin === 'false' && (
+              <SelectOpt
+                label={'Choose Member Type:'}
+                value={user.memberType}
+                options={['--Select Options--', 'Teacher', 'Student']}
+                style={{ padding: `2%`, border: `1px solid lightgray` }}
+                onChange={(e) => setUser({ ...user, memberType: e.target.value })}
+              />
+            )}
+            {message && <p style={{ color: `red` }}>{message}</p>}
 
             <br />
             <Box textAlign="center">
