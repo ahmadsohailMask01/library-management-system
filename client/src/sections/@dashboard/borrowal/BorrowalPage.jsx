@@ -135,13 +135,19 @@ const BorrowalPage = () => {
   };
 
   const deleteBorrowal = () => {
+    console.log(borrowal.bookId);
+
     axios
       .delete(apiUrl(routes.BORROWAL, methods.DELETE, selectedBorrowalId), borrowal)
       .then((response) => {
         toast.success('Borrowal deleted');
+        axios
+          .get(apiUrl(routes.BOOK, methods.GET, response.data.deletedBorrowal.bookId))
+          .then((res) => toast.success(`${res.data.book.name} is available now!`))
+          .catch((error) => console.log(error));
         handleCloseDialog();
         handleCloseMenu();
-        console.log(response.data);
+        console.log(response.data.deletedBorrowal.bookId);
         getAllBorrowals();
       })
       .catch((error) => {
