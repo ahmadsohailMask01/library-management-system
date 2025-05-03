@@ -12,6 +12,8 @@ import {
   Stack,
   TextField,
   Typography,
+  IconButton,
+  InputAdornment,
 } from '@mui/material';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
@@ -42,6 +44,7 @@ const UserForm = ({
     boxShadow: 16,
     p: 4,
   };
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <Modal
@@ -144,11 +147,20 @@ const UserForm = ({
 
             <TextField
               name="password"
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               label="Password"
               value={user.password}
               required
               onChange={(e) => setUser({ ...user, password: e.target.value })}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
+                      <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             />
             {user.isAdmin === 'false' && (
               <SelectOpt

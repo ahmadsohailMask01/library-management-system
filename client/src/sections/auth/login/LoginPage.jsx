@@ -71,22 +71,18 @@ export default function LoginPage() {
         <Logo
           sx={{
             position: 'fixed',
-            top: { xs: 3, sm: 3, md: 3 },
-            left: { xs: 3, sm: 3, md: 3 },
           }}
+          src="./assets/fazaia.jpg"
+          style={{ width: `40%`, top: `16%`, left: `2%` }}
         />
 
         <Container maxWidth="sm">
           <StyledContent>
-            <Typography
-              variant="h4"
-              sx={{ color: '#666666', fontWeight: '600' }}
-              textAlign="center"
-              gutterBottom
-              paddingBottom={0}
-            >
-              Library System
-            </Typography>
+            <img
+              src="/assets/libLogo.jpg"
+              alt="Library Management System Logo"
+              style={{ width: `150px`, height: `150px`, marginLeft: `35%`, marginBottom: `5%` }}
+            />
             <Typography variant="h3" textAlign="center" gutterBottom paddingBottom={3}>
               Sign in
             </Typography>

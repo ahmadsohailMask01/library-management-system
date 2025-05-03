@@ -1,9 +1,9 @@
-import { Helmet } from "react-helmet-async";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import toast from "react-hot-toast";
+import { Helmet } from 'react-helmet-async';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
-import { Alert } from "@mui/lab";
+import { Alert } from '@mui/lab';
 import {
   Avatar,
   Button,
@@ -21,31 +21,37 @@ import {
   TableContainer,
   TablePagination,
   TableRow,
-  Typography
-} from "@mui/material";
-import { useAuth } from "../../../hooks/useAuth";
+  Typography,
+} from '@mui/material';
+import { useAuth } from '../../../hooks/useAuth';
 
-import Iconify from "../../../components/iconify";
-import Scrollbar from "../../../components/scrollbar";
+import Iconify from '../../../components/iconify';
+import Scrollbar from '../../../components/scrollbar';
 
-import AuthorTableHead from "./AuthorListHead";
-import AuthorForm from "./AuthorForm";
-import AuthorDialog from "./AuthorDialog";
-import { applySortFilter, getComparator } from "../../../utils/tableOperations";
-import { apiUrl, methods, routes } from "../../../constants";
+import AuthorTableHead from './AuthorListHead';
+import AuthorForm from './AuthorForm';
+import AuthorDialog from './AuthorDialog';
+import { applySortFilter, getComparator } from '../../../utils/tableOperations';
+import { apiUrl, methods, routes } from '../../../constants';
 
 // ----------------------------------------------------------------------
 
-const TABLE_HEAD = [{ id: "photo", label: "Photo", alignRight: false }, {
-  id: "name",
-  label: "Name",
-  alignRight: false
-}, { id: "description", label: "Description", alignRight: false }, { id: "", label: "", alignRight: false }];
+const TABLE_HEAD = [
+  { id: 'photo', label: 'Photo', alignRight: false },
+  {
+    id: 'name',
+    label: 'Name',
+    alignRight: false,
+  },
+  { id: 'description', label: 'Description', alignRight: false },
+  { id: 'bookByAuthor', label: 'Books By Author', alignRight: false },
+  { id: '', label: '', alignRight: false },
+];
 
 // ----------------------------------------------------------------------
 
 const AuthorPage = () => {
-  const {user} = useAuth();
+  const { user } = useAuth();
   // State variables
   // Table
   const [page, setPage] = useState(0);
@@ -56,18 +62,20 @@ const AuthorPage = () => {
 
   // Data
   const [author, setAuthor] = useState({
-    id: "",
-    name: "",
-    description: "",
-    photoUrl: ""
-  })
+    id: '',
+    name: '',
+    description: '',
+    photoUrl: '',
+  });
   const [authors, setAuthors] = useState([]);
-  const [selectedAuthorId, setSelectedAuthorId] = useState(null)
-  const [isTableLoading, setIsTableLoading] = useState(true)
+  const [selectedAuthorId, setSelectedAuthorId] = useState(null);
+  const [isTableLoading, setIsTableLoading] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const [isUpdateForm, setIsUpdateForm] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isUpdateForm, setIsUpdateForm] = useState(false);
+  const [books, setBooks] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   // Load data on initial page load
   useEffect(() => {
@@ -77,23 +85,25 @@ const AuthorPage = () => {
   // API operations
 
   const getAllAuthors = () => {
-    axios.get(apiUrl(routes.AUTHOR, methods.GET_ALL))
+    axios
+      .get(apiUrl(routes.AUTHOR, methods.GET_ALL))
       .then((response) => {
         // handle success
-        console.log(response.data)
-        setAuthors(response.data.authorsList)
-        setIsTableLoading(false)
+        console.log(response.data);
+        setAuthors(response.data.authorsList);
+        setIsTableLoading(false);
       })
       .catch((error) => {
         // handle error
         console.log(error);
-      })
-  }
+      });
+  };
 
   const addAuthor = () => {
-    axios.post(apiUrl(routes.AUTHOR, methods.POST), author)
+    axios
+      .post(apiUrl(routes.AUTHOR, methods.POST), author)
       .then((response) => {
-        toast.success("Author added");
+        toast.success('Author added');
         console.log(response.data);
         handleCloseModal();
         getAllAuthors();
@@ -101,14 +111,15 @@ const AuthorPage = () => {
       })
       .catch((error) => {
         console.log(error);
-        toast.error("Something went wrong, please try again")
+        toast.error('Something went wrong, please try again');
       });
-  }
+  };
 
   const updateAuthor = () => {
-    axios.put(apiUrl(routes.AUTHOR, methods.PUT, selectedAuthorId), author)
+    axios
+      .put(apiUrl(routes.AUTHOR, methods.PUT, selectedAuthorId), author)
       .then((response) => {
-        toast.success("Author updated");
+        toast.success('Author updated');
         console.log(response.data);
         handleCloseModal();
         handleCloseMenu();
@@ -117,14 +128,27 @@ const AuthorPage = () => {
       })
       .catch((error) => {
         console.log(error);
-        toast.error("Something went wrong, please try again")
+        toast.error('Something went wrong, please try again');
       });
-  }
+  };
+
+  const fetchBooksByAuthorId = async (authorId) => {
+    try {
+      const response = await axios.get(apiUrl(routes.BOOK, methods.BOOKS_BY_AUTHOR, authorId));
+      console.log(response);
+      const data = await response.data;
+      setBooks(() => data);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching books:', error);
+    }
+  };
 
   const deleteAuthor = (authorId) => {
-    axios.delete(apiUrl(routes.AUTHOR, methods.DELETE, authorId))
+    axios
+      .delete(apiUrl(routes.AUTHOR, methods.DELETE, authorId))
       .then((response) => {
-        toast.success("Author deleted");
+        toast.success('Author deleted');
         handleCloseDialog();
         handleCloseMenu();
         console.log(response.data);
@@ -132,18 +156,18 @@ const AuthorPage = () => {
       })
       .catch((error) => {
         console.log(error);
-        toast.error("Something went wrong, please try again")
+        toast.error('Something went wrong, please try again');
       });
-  }
+  };
 
   const getSelectedAuthorDetails = () => {
-    const selectedAuthor = authors.find((element) => element._id === selectedAuthorId)
-    setAuthor(selectedAuthor)
-  }
+    const selectedAuthor = authors.find((element) => element._id === selectedAuthorId);
+    setAuthor(selectedAuthor);
+  };
 
   const clearForm = () => {
-    setAuthor({id: "", name: "", description: ""})
-  }
+    setAuthor({ id: '', name: '', description: '' });
+  };
 
   // Handler functions
   const handleOpenMenu = (event) => {
@@ -155,12 +179,12 @@ const AuthorPage = () => {
   };
 
   const handleOpenDialog = () => {
-    setIsDialogOpen(true)
-  }
+    setIsDialogOpen(true);
+  };
 
   const handleCloseDialog = () => {
-    setIsDialogOpen(false)
-  }
+    setIsDialogOpen(false);
+  };
 
   // Table functions
 
@@ -181,127 +205,203 @@ const AuthorPage = () => {
   };
 
   const handleOpenModal = () => {
-    setIsModalOpen(true)
-  }
+    setIsModalOpen(true);
+  };
 
   const handleCloseModal = () => {
-    setIsModalOpen(false)
-  }
+    setIsModalOpen(false);
+  };
 
-  return (<>
-    <Helmet>
-      <title>Library App | Authors</title>
-    </Helmet>
+  return (
+    <>
+      <Helmet>
+        <title>Library App | Authors</title>
+      </Helmet>
 
+      <Container>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+          <Typography variant="h3" gutterBottom>
+            Authors
+          </Typography>
+          {user.isAdmin && (
+            <Button
+              variant="contained"
+              onClick={() => {
+                setIsUpdateForm(false);
+                handleOpenModal();
+              }}
+              startIcon={<Iconify icon="eva:plus-fill" />}
+            >
+              New Author
+            </Button>
+          )}
+        </Stack>
+        {isTableLoading ? (
+          <Grid padding={2} style={{ textAlign: 'center' }}>
+            <CircularProgress />
+          </Grid>
+        ) : (
+          <Card>
+            <Scrollbar>
+              {authors.length > 0 ? (
+                <TableContainer sx={{ minWidth: 800 }}>
+                  <Table>
+                    <AuthorTableHead
+                      order={order}
+                      orderBy={orderBy}
+                      headLabel={TABLE_HEAD}
+                      rowCount={authors.length}
+                      onRequestSort={handleRequestSort}
+                    />
+                    <TableBody>
+                      {authors.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                        const { _id, name, description, photoUrl } = row;
 
-    <Container>
-      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        <Typography variant="h3" gutterBottom>
-          Authors
-        </Typography>
-        {user.isAdmin && <Button variant="contained" onClick={() => {
-          setIsUpdateForm(false);
-          handleOpenModal();
-        }} startIcon={<Iconify icon="eva:plus-fill"/>}>
-          New Author
-        </Button>}
-      </Stack>
-      {isTableLoading ? <Grid padding={2} style={{"textAlign": "center"}}><CircularProgress/></Grid> : <Card>
-        <Scrollbar>
-          {authors.length > 0 ? <TableContainer sx={{minWidth: 800}}>
-            <Table>
-              <AuthorTableHead
-                order={order}
-                orderBy={orderBy}
-                headLabel={TABLE_HEAD}
-                rowCount={authors.length}
-                onRequestSort={handleRequestSort}
-              /><TableBody>
-              {authors.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                const {_id, name, description, photoUrl} = row;
+                        return (
+                          <TableRow hover key={_id} tabIndex={-1}>
+                            <TableCell align="center">
+                              <Stack direction="row" alignItems="center" spacing={4}>
+                                <Avatar alt={name} src={photoUrl} />
+                              </Stack>
+                            </TableCell>
 
-                return (<TableRow hover key={_id} tabIndex={-1}>
-                  <TableCell align="center"><Stack direction="row"
-                                                   alignItems="center"
-                                                   spacing={4}>
-                    <Avatar alt={name} src={photoUrl}/>
+                            <TableCell align="left">
+                              <Typography variant="subtitle2" noWrap>
+                                {name}
+                              </Typography>
+                            </TableCell>
 
-                  </Stack></TableCell>
+                            <TableCell align="left">{description}</TableCell>
+                            <TableCell align="left">
+                              <select
+                                key={_id}
+                                onClick={() => {
+                                  setLoading((prev) => !prev);
+                                  fetchBooksByAuthorId(_id);
+                                }}
+                                style={{
+                                  padding: `3%`,
+                                  borderRadius: `10px`,
+                                  maxWidth: `200px`,
+                                  backgroundColor: `white`,
+                                }}
+                              >
+                                <option value="options" key="options" hidden>
+                                  See Books by {name}
+                                </option>
+                                {loading ? (
+                                  <option value="options" key="options" disabled>
+                                    Loading Books ...
+                                  </option>
+                                ) : books?.length > 0 ? (
+                                  books?.map((book) => (
+                                    <option value={book.name} key={book._id} style={{ padding: `2%` }}>
+                                      {book.name}
+                                    </option>
+                                  ))
+                                ) : (
+                                  <option disabled style={{ overflow: `scroll` }}>
+                                    No books available
+                                  </option>
+                                )}
+                              </select>
+                            </TableCell>
+                            <TableCell align="right">
+                              {user.isAdmin && (
+                                <IconButton
+                                  size="large"
+                                  color="inherit"
+                                  onClick={(e) => {
+                                    setSelectedAuthorId(_id);
+                                    handleOpenMenu(e);
+                                  }}
+                                >
+                                  <Iconify icon={'eva:more-vertical-fill'} />
+                                </IconButton>
+                              )}
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              ) : (
+                <Alert severity="warning" color="warning">
+                  No authors found
+                </Alert>
+              )}
+            </Scrollbar>
+            {authors.length > 0 && (
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 25]}
+                component="div"
+                count={authors.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            )}
+          </Card>
+        )}
+      </Container>
 
-                  <TableCell align="left"><Typography variant="subtitle2"
-                                                      noWrap>
-                    {name}
-                  </Typography></TableCell>
-
-                  <TableCell align="left">{description}</TableCell>
-                  <TableCell align="right">
-                    {user.isAdmin &&
-                      <IconButton size="large" color="inherit" onClick={(e) => {
-                        setSelectedAuthorId(_id)
-                        handleOpenMenu(e)
-                      }}>
-                        <Iconify icon={'eva:more-vertical-fill'}/>
-                      </IconButton>
-                    }
-                  </TableCell>
-                </TableRow>);
-              })}
-            </TableBody></Table>
-          </TableContainer> : <Alert severity="warning" color="warning">
-            No authors found
-          </Alert>}
-        </Scrollbar>
-        {authors.length > 0 && <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={authors.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />}
-      </Card>}
-    </Container>
-
-    <Popover
-      open={Boolean(isMenuOpen)}
-      anchorEl={isMenuOpen}
-      onClose={handleCloseMenu}
-      anchorOrigin={{vertical: 'top', horizontal: 'left'}}
-      transformOrigin={{vertical: 'top', horizontal: 'right'}}
-      PaperProps={{
-        sx: {
-          p: 1, width: 140, '& .MuiMenuItem-root': {
-            px: 1, typography: 'body2', borderRadius: 0.75,
+      <Popover
+        open={Boolean(isMenuOpen)}
+        anchorEl={isMenuOpen}
+        onClose={handleCloseMenu}
+        anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+        PaperProps={{
+          sx: {
+            p: 1,
+            width: 140,
+            '& .MuiMenuItem-root': {
+              px: 1,
+              typography: 'body2',
+              borderRadius: 0.75,
+            },
           },
-        },
-      }}
-    >
-      <MenuItem onClick={() => {
-        setIsUpdateForm(true);
-        getSelectedAuthorDetails();
-        handleCloseMenu();
-        handleOpenModal();
-      }}>
-        <Iconify icon={'eva:edit-fill'} sx={{mr: 2}}/>
-        Edit
-      </MenuItem>
+        }}
+      >
+        <MenuItem
+          onClick={() => {
+            setIsUpdateForm(true);
+            getSelectedAuthorDetails();
+            handleCloseMenu();
+            handleOpenModal();
+          }}
+        >
+          <Iconify icon={'eva:edit-fill'} sx={{ mr: 2 }} />
+          Edit
+        </MenuItem>
 
-      <MenuItem sx={{color: 'error.main'}} onClick={handleOpenDialog}>
-        <Iconify icon={'eva:trash-2-outline'} sx={{mr: 2}}/>
-        Delete
-      </MenuItem>
-    </Popover>
+        <MenuItem sx={{ color: 'error.main' }} onClick={handleOpenDialog}>
+          <Iconify icon={'eva:trash-2-outline'} sx={{ mr: 2 }} />
+          Delete
+        </MenuItem>
+      </Popover>
 
-    <AuthorForm isUpdateForm={isUpdateForm} isModalOpen={isModalOpen} handleCloseModal={handleCloseModal}
-                id={selectedAuthorId} author={author} setAuthor={setAuthor}
-                handleAddAuthor={addAuthor} handleUpdateAuthor={updateAuthor}/>
+      <AuthorForm
+        isUpdateForm={isUpdateForm}
+        isModalOpen={isModalOpen}
+        handleCloseModal={handleCloseModal}
+        id={selectedAuthorId}
+        author={author}
+        setAuthor={setAuthor}
+        handleAddAuthor={addAuthor}
+        handleUpdateAuthor={updateAuthor}
+      />
 
-    <AuthorDialog isDialogOpen={isDialogOpen} authorId={selectedAuthorId} handleDeleteAuthor={deleteAuthor}
-                  handleCloseDialog={handleCloseDialog}/>
+      <AuthorDialog
+        isDialogOpen={isDialogOpen}
+        authorId={selectedAuthorId}
+        handleDeleteAuthor={deleteAuthor}
+        handleCloseDialog={handleCloseDialog}
+      />
+    </>
+  );
+};
 
-
-  </>);
-}
-
-export default AuthorPage
+export default AuthorPage;

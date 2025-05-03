@@ -214,7 +214,9 @@ const BookPage = () => {
             </Button>
           )}
         </Stack>
-
+        <span style={{ marginTop: `-40px`, display: `block`, marginBottom: `40px` }}>
+          Books marked as 'Available' are currently in the library and can be borrowed.
+        </span>
         {isTableLoading ? (
           <Grid padding={2} style={{ textAlign: 'center' }}>
             <CircularProgress />

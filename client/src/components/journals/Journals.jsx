@@ -32,7 +32,9 @@ const Journals = () => {
   };
   return (
     <div>
-      <span>We have three dedicated books for our users to have them requested and studied</span>
+      <span style={{ marginTop: `-40px`, display: `block`, marginBottom: `40px` }}>
+        We have three dedicated books for our users to have them requested and studied
+      </span>
       <div className={styles.mainDiv}>
         <div className={styles.cardButtonDiv}>
           <img src="/assets/ComputerImage.png" alt="Computer book" style={bookImageStyle} />

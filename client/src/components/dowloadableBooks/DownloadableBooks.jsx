@@ -1,11 +1,18 @@
 import React from 'react';
+import axios from 'axios';
 import BookButton from '../bookButton/bookButton';
 import styles from '../../styles/button.module.css';
+import { apiUrl, methods, routes } from '../../constants';
 
 const DownloadableBooks = () => {
   const ComputerFileURL = '/Computer_Journal.pdf';
   const MathsFileURL = '/Graduation_Maths.pdf';
   const ProgrammingFileURL = '/Computer_Programming.pdf';
+  const handleDownload = async () => {
+    await axios.post(apiUrl(routes.TOTAL_DOWNLOADS, methods.TOTAL_DOWNLOADS));
+
+    // Optional: trigger file download or notification here
+  };
   const handlePDFDownload = (url) => {
     const fileName = url.split('/').pop();
     const aTag = document.createElement('a');
@@ -14,6 +21,7 @@ const DownloadableBooks = () => {
     document.body.appendChild(aTag);
     aTag.click();
     aTag.remove();
+    handleDownload();
   };
   const bookButtonStyle = {
     padding: `2%`,
@@ -32,7 +40,9 @@ const DownloadableBooks = () => {
   };
   return (
     <div>
-      <span>We have three dedicated books for our users to have them downloaded in PDF</span>
+      <span style={{ marginTop: `-40px`, display: `block`, marginBottom: `40px` }}>
+        We have three dedicated books for our users to have them downloaded in PDF
+      </span>
       <div className={styles.mainDiv}>
         <div className={styles.cardButtonDiv} style={{ backgroundColor: `#006100` }}>
           <img src="/assets/ComputerX.jpg" alt="Computer book" style={bookImageStyle} />

@@ -5,7 +5,7 @@ import { Box, Link } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
-const Logo = forwardRef(({ disabledLink = false, sx, ...other }, ref) => {
+const Logo = forwardRef(({ disabledLink = false, sx, src = './assets/libLogo.jpg', ...other }, ref) => {
   const logo = (
     <Box
       ref={ref}
@@ -19,7 +19,7 @@ const Logo = forwardRef(({ disabledLink = false, sx, ...other }, ref) => {
       }}
       {...other}
     >
-      <img src="./assets/Librarry.jpeg" alt="Logo" width="30%" />
+      <img src={src} alt="Logo" width="25%" />
     </Box>
   );
 
@@ -37,6 +37,7 @@ const Logo = forwardRef(({ disabledLink = false, sx, ...other }, ref) => {
 Logo.propTypes = {
   sx: PropTypes.object,
   disabledLink: PropTypes.bool,
+  src: PropTypes.string,
 };
 
 export default Logo;

@@ -21,5 +21,8 @@
     "server": "cd server && npm run start",
     "client": "cd client && npm run start",
     "start": "npm run server & npm run client"
+  },
+  "dependencies": {
+    "react-apexcharts": "^1.7.0"
   }
 }
