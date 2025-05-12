@@ -16,6 +16,8 @@ export default function DashboardAppPage() {
   const [borrowals, setBorrowals] = useState([]);
   const [authors, setAuthors] = useState([]);
   const [downloads, setDownloads] = useState(null);
+  const [loading1, setLoading1] = useState(true);
+  const [loading2, setLoading2] = useState(true);
   const [books, setBooks] = useState(null);
   const getAllUsers = () => {
     axios
@@ -44,6 +46,7 @@ export default function DashboardAppPage() {
         // handle success
         // console.log(response.data);
         setBorrowals(response.data.borrowalsList);
+        setLoading1(false);
       })
       .catch((error) => {
         // handle error
@@ -71,6 +74,7 @@ export default function DashboardAppPage() {
         // handle success
         console.log(response.data);
         setBooks(response.data.booksList);
+        setLoading2(false);
       })
       .catch((error) => {
         // handle error
@@ -103,12 +107,20 @@ export default function DashboardAppPage() {
         </Typography>
 
         <Grid container spacing={3}>
-          <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary
-              title="No. of Borrowals"
-              total={borrowals?.length > 0 ? borrowals?.length : '0'}
-              icon={'ant-design:book-filled'}
-            />
+          <Grid item xs={12} sm={6} md={3} style={{ position: `relative` }}>
+            {loading1 ? (
+              <img
+                alt="loading-svg"
+                src="/assets/loading_svg.svg"
+                style={{ width: `50%`, position: `absolute`, top: `70px`, left: `80px` }}
+              />
+            ) : (
+              <AppWidgetSummary
+                title="No. of Borrowals"
+                total={borrowals && borrowals?.length}
+                icon={'ant-design:book-filled'}
+              />
+            )}
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
@@ -120,13 +132,21 @@ export default function DashboardAppPage() {
             />
           </Grid>
 
-          <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary
-              title="No. of Book Registered"
-              total={books && books?.length}
-              color="warning"
-              icon={'ant-design:book'}
-            />
+          <Grid item xs={12} sm={6} md={3} style={{ position: `relative` }}>
+            {loading1 ? (
+              <img
+                alt="loading-svg"
+                src="/assets/loading_svg.svg"
+                style={{ width: `50%`, position: `absolute`, top: `70px`, left: `80px` }}
+              />
+            ) : (
+              <AppWidgetSummary
+                title="No. of Book Registered"
+                total={books && books?.length}
+                color="warning"
+                icon={'ant-design:book'}
+              />
+            )}
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>

@@ -27,7 +27,7 @@ const registerUser = async (req, res) => {
 
 const loginUser = async (req, res, next) => {
   User.findOne({ email: req.body.email }, (err, user) => {
-   console.log(req.body.password);
+    console.log(req.body.password);
     if (err) {
       return res.status(500).json({ success: false, err });
     }
@@ -36,9 +36,10 @@ const loginUser = async (req, res, next) => {
         .status(404)
         .json({ success: false, message: "User not found" });
     }
-    if(user.password != req.body.password)
-    {
-      return res.status(401).json({success: false, message: "Incorrect Password"})
+    if (user.password != req.body.password) {
+      return res
+        .status(401)
+        .json({ success: false, message: "Incorrect Password" });
     }
     passport.authenticate("local", (err, user, info) => {
       req.logIn(user, () => {
