@@ -38,7 +38,7 @@ import { apiUrl, methods, routes } from '../../../constants';
 const TABLE_HEAD = [
   { id: 'memberName', label: 'Member Name', alignRight: false },
   { id: 'bookName', label: 'Book Name', alignRight: false },
-  { id: 'borrowedDate', label: 'Borrowed On', alignRight: false },
+  { id: 'borrowedDate', label: 'Reserved On', alignRight: false },
   { id: 'dueDate', label: 'Due On', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
   { id: '', label: '', alignRight: true },
@@ -105,7 +105,7 @@ const BorrowalPage = () => {
     axios
       .post(apiUrl(routes.BORROWAL, methods.POST), borrowal)
       .then((response) => {
-        toast.success('Borrowal added');
+        toast.success('Reservation added');
         console.log(response.data);
         handleCloseModal();
         getAllBorrowals();
@@ -121,7 +121,7 @@ const BorrowalPage = () => {
     axios
       .put(apiUrl(routes.BORROWAL, methods.PUT, selectedBorrowalId), borrowal)
       .then((response) => {
-        toast.success('Borrowal updated');
+        toast.success('Reservation updated');
         console.log(response.data);
         handleCloseModal();
         handleCloseMenu();
@@ -140,7 +140,7 @@ const BorrowalPage = () => {
     axios
       .delete(apiUrl(routes.BORROWAL, methods.DELETE, selectedBorrowalId), borrowal)
       .then((response) => {
-        toast.success('Borrowal deleted');
+        toast.success('Reservation deleted');
         axios
           .get(apiUrl(routes.BOOK, methods.GET, response.data.deletedBorrowal.bookId))
           .then((res) => toast.success(`${res.data.book.name} is available now!`))
@@ -217,13 +217,13 @@ const BorrowalPage = () => {
   return (
     <>
       <Helmet>
-        <title>Borrowals</title>
+        <title>Reservations</title>
       </Helmet>
 
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h3" gutterBottom>
-            Borrowals
+            Reservations
           </Typography>
           <Button
             variant="contained"
@@ -233,7 +233,7 @@ const BorrowalPage = () => {
             }}
             startIcon={<Iconify icon="eva:plus-fill" />}
           >
-            New Borrowal
+            New Reservation
           </Button>
         </Stack>
         {isTableLoading ? (

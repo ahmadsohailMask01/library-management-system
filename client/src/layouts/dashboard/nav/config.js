@@ -22,7 +22,7 @@ const navConfig = [
     icon: <FiList />,
   },
   {
-    title: 'Borrowals',
+    title: 'Reservations',
     path: '/borrowals',
     icon: <FiCheckCircle />,
   },

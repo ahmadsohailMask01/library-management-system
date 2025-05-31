@@ -8,9 +8,11 @@ import {
   MenuItem,
   Modal,
   Select,
+  Autocomplete,
   Stack,
   TextField,
   Typography,
+  createFilterOptions,
 } from '@mui/material';
 import PropTypes from 'prop-types';
 import axios from 'axios';
@@ -68,6 +70,11 @@ const BorrowalForm = ({
       });
   };
 
+  // const filterOptions = createFilterOptions({
+  //   matchFrom: 'any',
+  //   stringify: (option) => option.name?.toLowerCase().replace(/[^a-z0-9 ]/gi, ''),
+  // });
+
   // Load data on initial page load
   useEffect(() => {
     getAllMembers();
@@ -87,6 +94,29 @@ const BorrowalForm = ({
     p: 4,
   };
 
+  const bookOptions = books
+    .filter((book) => book.isAvailable)
+    .map((book) => ({
+      key: book._id,
+      text: book.name,
+      value: book._id,
+    }));
+
+  const normalize = (str) =>
+    str
+      ?.toLowerCase()
+      .replace(/[^a-z0-9 ]/gi, '')
+      .trim();
+
+  const filterOptions = (options, { inputValue }) => {
+    const searchWords = normalize(inputValue).split(/\s+/);
+
+    return options.filter((option) => {
+      const name = normalize(option.name);
+      return searchWords.every((word) => name.includes(word));
+    });
+  };
+
   return (
     <Modal
       open={isModalOpen}
@@ -97,7 +127,7 @@ const BorrowalForm = ({
       <Box sx={style}>
         <Container>
           <Typography variant="h4" textAlign="center" paddingBottom={2} paddingTop={1}>
-            {isUpdateForm ? <span>Update</span> : <span>Add</span>} borrowal
+            {isUpdateForm ? <span>Update</span> : <span>Add</span>} Reservation
           </Typography>
           <Stack spacing={3} paddingY={2}>
             <Grid container spacing={0} sx={{ paddingBottom: '4px' }}>
@@ -123,8 +153,7 @@ const BorrowalForm = ({
               </Grid>
               <Grid item xs={12} md={6} paddingLeft={1}>
                 <FormControl sx={{ m: 0 }} fullWidth>
-                  <InputLabel id="author-label">Book</InputLabel>
-                  <Select
+                  {/* <Select
                     required
                     labelId="book-label"
                     id="book"
@@ -139,7 +168,18 @@ const BorrowalForm = ({
                           {book.name}
                         </MenuItem>
                       ))}
-                  </Select>
+                  </Select> */}
+                  <Autocomplete
+                    fullWidth
+                    options={books.filter((book) => book.isAvailable)}
+                    getOptionLabel={(option) => option.name}
+                    filterOptions={filterOptions}
+                    value={books.find((book) => book._id === borrowal.bookId) || null}
+                    onChange={(event, newValue) => {
+                      setBorrowal({ ...borrowal, bookId: newValue ? newValue._id : '' });
+                    }}
+                    renderInput={(params) => <TextField {...params} label="Book" required />}
+                  />
                 </FormControl>
               </Grid>
             </Grid>
@@ -149,7 +189,7 @@ const BorrowalForm = ({
                 <TextField
                   fullWidth
                   name="borrowedDate"
-                  label="Borrowed date"
+                  label="Reservation date"
                   type="text"
                   value={String(borrowal.borrowedDate).split('T')[0]}
                   required

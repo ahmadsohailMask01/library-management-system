@@ -116,7 +116,7 @@ export default function DashboardAppPage() {
               />
             ) : (
               <AppWidgetSummary
-                title="No. of Borrowals"
+                title="No. of Reservations"
                 total={borrowals && borrowals?.length}
                 icon={'ant-design:book-filled'}
               />

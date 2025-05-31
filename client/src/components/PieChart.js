@@ -8,7 +8,7 @@ export default function PieChart({
   borrowals = [],
   downloads = 0, // assuming this is a number, not an array
 }) {
-  const chartLabels = ['Users', 'Authors', 'Borrowals', 'Book Downloads'];
+  const chartLabels = ['Users', 'Authors', 'Reservations', 'Book Downloads'];
   const chartData = [users.length, authors.length, borrowals.length, downloads];
 
   const chartOptions = {
@@ -37,7 +37,7 @@ export default function PieChart({
     <Card>
       <CardHeader
         title="Overview with Downloads Addition"
-        subheader="Distribution of Users, Authors, Borrowals, and Downloads"
+        subheader="Distribution of Users, Authors, Reservations, and Downloads"
       />
       <Box sx={{ p: 3, pb: 1 }} dir="ltr">
         <ReactApexChart type="pie" series={chartData} options={chartOptions} height={350} />

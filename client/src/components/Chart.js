@@ -14,7 +14,7 @@ export default function Chart({ users = [], authors = [], borrowals = [] }) {
       toolbar: { show: false },
     },
     xaxis: {
-      categories: ['Users', 'Authors', 'Borrowals'],
+      categories: ['Users', 'Authors', 'Reservations'],
       labels: {
         style: {
           fontSize: '14px',
@@ -48,7 +48,7 @@ export default function Chart({ users = [], authors = [], borrowals = [] }) {
 
   return (
     <Card>
-      <CardHeader title="Library Overview" subheader="Users, Authors, and Borrowals Count" />
+      <CardHeader title="Library Overview" subheader="Users, Authors, and Reservations Count" />
       <Box sx={{ p: 3, pb: 1 }} dir="ltr">
         <ReactApexChart type="bar" series={chartData} options={chartOptions} height={320} />
       </Box>
