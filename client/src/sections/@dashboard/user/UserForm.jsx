@@ -15,7 +15,7 @@ import {
   IconButton,
   InputAdornment,
 } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import SelectOpt from '../../../components/Select';
 import Iconify from '../../../components/iconify';
@@ -45,6 +45,11 @@ const UserForm = ({
     p: 4,
   };
   const [showPassword, setShowPassword] = useState(false);
+
+  useEffect(() => {
+    console.log('hit inside');
+    setUser({ ...user, isAdmin: false });
+  }, []);
 
   return (
     <Modal
@@ -113,18 +118,18 @@ const UserForm = ({
               </Grid>
             </Grid>
 
-            <FormControl>
-              <FormLabel id="available-label" sx={{ textAlign: 'center' }}>
+            {/* <FormControl>
+              {/* <FormLabel id="available-label" sx={{ textAlign: 'center' }}>
                 User role
-              </FormLabel>
-              <RadioGroup
+              </FormLabel> */}
+            {/* <RadioGroup
                 sx={{ paddingTop: '10px' }}
                 aria-labelledby="available-label"
                 defaultValue={user.isAdmin}
                 name="radio-buttons-group"
-                onChange={(e) => setUser({ ...user, isAdmin: e.target.value })}
-              >
-                <Grid container spacing={0}>
+                onChange={(e) => setUser({ ...user, isAdmin: false })}
+              > */}
+            {/* <Grid container spacing={0}>
                   <Grid item xs={12} md={6} paddingRight={1}>
                     <FormControlLabel
                       value
@@ -141,9 +146,9 @@ const UserForm = ({
                       sx={{ textAlign: 'center', justifyContent: 'center', width: '100%' }}
                     />
                   </Grid>
-                </Grid>
-              </RadioGroup>
-            </FormControl>
+                </Grid> */}
+            {/* </RadioGroup> */}
+            {/* </FormControl> */}
 
             <TextField
               name="password"
@@ -162,7 +167,7 @@ const UserForm = ({
                 ),
               }}
             />
-            {user.isAdmin === 'false' && (
+            {user.isAdmin === false && (
               <SelectOpt
                 label={'Choose Member Type:'}
                 value={user.memberType}

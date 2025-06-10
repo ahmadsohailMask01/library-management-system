@@ -19,7 +19,6 @@ import {
 import { Alert } from '@mui/lab';
 import { styled } from '@mui/material/styles';
 import DownloadableBooks from '../../../components/dowloadableBooks/DownloadableBooks';
-import Journals from '../../../components/journals/Journals';
 import { useAuth } from '../../../hooks/useAuth';
 
 import Label from '../../../components/label';
@@ -177,17 +176,8 @@ const BookPage = () => {
   return (
     <>
       <Helmet>
-        <title> Books & Journals </title>
+        <title> Books </title>
       </Helmet>
-
-      <Container style={{ marginBottom: `3%` }}>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h3" sx={{ mb: 5 }}>
-            Journals
-          </Typography>
-        </Stack>
-        <Journals />
-      </Container>
       <Container style={{ marginBottom: `3%` }}>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h3" sx={{ mb: 5 }}>
@@ -285,7 +275,7 @@ const BookPage = () => {
                       {book.author.name}
                     </Typography>
                     <Label color={book.isAvailable ? 'success' : 'error'} sx={{ padding: 2 }}>
-                      {book.isAvailable ? 'Available' : 'Not available'}
+                      {book.isAvailable ? 'Un-reserved' : 'Reserved'}
                     </Label>
 
                     <Typography variant="subtitle2" textAlign="center" paddingTop={1}>

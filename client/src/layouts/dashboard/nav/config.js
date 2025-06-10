@@ -7,8 +7,13 @@ const navConfig = [
     icon: <FiHome />,
   },
   {
-    title: 'Books & Journals',
+    title: 'Books',
     path: '/books',
+    icon: <FiBookOpen />,
+  },
+  {
+    title: 'Journals',
+    path: '/journals',
     icon: <FiBookOpen />,
   },
   {

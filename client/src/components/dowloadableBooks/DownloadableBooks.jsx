@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Grid } from 'semantic-ui-react';
+import { useAuth } from '../../hooks/useAuth';
 import styles from '../../styles/button.module.css';
 import { apiUrl, methods, routes } from '../../constants';
+import { AppWidgetSummary } from '../../sections/@dashboard/app';
 
 const DownloadableBooks = () => {
+  const { user } = useAuth();
+  const [downloads, setDownloads] = useState([]);
   const books = [
     {
       title: 'Computer Networks by Tanenbaum',
@@ -250,6 +255,16 @@ const DownloadableBooks = () => {
 
   const bookImage = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpKXnhKuH1v7K7NmFu6RsXevIMVTHNtp7oaQ&s';
 
+  const fetchDownloads = async () => {
+    const res = await axios.get(apiUrl(routes.TOTAL_DOWNLOADS, methods.TOTAL_DOWNLOADS));
+    // console.log(res.data.downloads);
+    setDownloads(res.data.downloads);
+  };
+
+  useEffect(() => {
+    fetchDownloads();
+  }, []);
+
   const handleDownload = async () => {
     try {
       await axios.post(apiUrl(routes.TOTAL_DOWNLOADS, methods.TOTAL_DOWNLOADS));
@@ -271,6 +286,16 @@ const DownloadableBooks = () => {
 
   return (
     <div>
+      {user?.isAdmin ? (
+        <Grid item xs={12} sm={6} md={8}>
+          <AppWidgetSummary
+            title="No. of Downloads"
+            total={downloads}
+            color="error"
+            icon={'ant-design:team-outlined'}
+          />
+        </Grid>
+      ) : null}
       <h2 style={{ marginTop: '10px', textAlign: 'center' }}>Download Free Networking and Computer Books</h2>
       <div
         className={styles.mainDiv}
@@ -294,21 +319,23 @@ const DownloadableBooks = () => {
               color: 'white',
             }}
           >
-            <img
-              src={bookImage}
-              alt={book.title}
-              style={{
-                width: '100%',
-                height: '300px',
-                objectFit: 'cover',
-                borderRadius: '10px',
-                backgroundColor: 'white',
-              }}
-              onError={(e) => {
-                e.target.src =
-                  'https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/HD_transparent_picture.png/640px-HD_transparent_picture.png';
-              }}
-            />
+            {user?.isAdmin ? null : (
+              <img
+                src={bookImage}
+                alt={book.title}
+                style={{
+                  width: '100%',
+                  height: '300px',
+                  objectFit: 'cover',
+                  borderRadius: '10px',
+                  backgroundColor: 'white',
+                }}
+                onError={(e) => {
+                  e.target.src =
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/HD_transparent_picture.png/640px-HD_transparent_picture.png';
+                }}
+              />
+            )}
             <h4 style={{ margin: '10px 0' }}>{book.title}</h4>
             <button
               onClick={() => handlePDFDownload(book.url)}

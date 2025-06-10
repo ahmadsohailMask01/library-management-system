@@ -190,11 +190,20 @@ const BorrowalForm = ({
                   fullWidth
                   name="borrowedDate"
                   label="Reservation date"
-                  type="text"
+                  type="date" // Use "date" for better date handling
                   value={String(borrowal.borrowedDate).split('T')[0]}
                   required
                   InputLabelProps={{ shrink: true }}
-                  onChange={(e) => setBorrowal({ ...borrowal, borrowedDate: e.target.value })}
+                  onChange={(e) => {
+                    const borrowedDate = e.target.value;
+                    const dueDate = new Date(borrowedDate);
+                    dueDate.setDate(dueDate.getDate() + 7);
+                    setBorrowal({
+                      ...borrowal,
+                      borrowedDate,
+                      dueDate: dueDate.toISOString().split('T')[0],
+                    });
+                  }}
                 />
               </Grid>
               <Grid item xs={12} md={6} paddingLeft={1}>

@@ -176,8 +176,8 @@ const BookForm = ({
                   name="radio-buttons-group"
                   onChange={(e) => setBook({ ...book, isAvailable: e.target.value })}
                 >
-                  <FormControlLabel value control={<Radio />} label="Available" />
-                  <FormControlLabel value={false} control={<Radio />} label="Not available" />
+                  <FormControlLabel value control={<Radio />} label="Un-reserved" />
+                  <FormControlLabel value={false} control={<Radio />} label="Reserved" />
                 </RadioGroup>
               </FormControl>
 
