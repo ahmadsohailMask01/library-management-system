@@ -234,6 +234,7 @@ const UserPage = () => {
   };
 
   const handleCloseModal = () => {
+    setUser({});
     setIsModalOpen(false);
   };
 

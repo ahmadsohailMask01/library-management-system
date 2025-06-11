@@ -275,19 +275,20 @@ const BorrowalPage = () => {
                               </Label>
                             )}
                           </TableCell>
-
-                          <TableCell align="right">
-                            <IconButton
-                              size="large"
-                              color="inherit"
-                              onClick={(e) => {
-                                setSelectedBorrowalId(borrowal._id);
-                                handleOpenMenu(e);
-                              }}
-                            >
-                              <Iconify icon={'eva:more-vertical-fill'} />
-                            </IconButton>
-                          </TableCell>
+                          {user.isAdmin ? (
+                            <TableCell align="right">
+                              <IconButton
+                                size="large"
+                                color="inherit"
+                                onClick={(e) => {
+                                  setSelectedBorrowalId(borrowal._id);
+                                  handleOpenMenu(e);
+                                }}
+                              >
+                                <Iconify icon={'eva:more-vertical-fill'} />
+                              </IconButton>
+                            </TableCell>
+                          ) : null}
                         </TableRow>
                       ))}
                     </TableBody>
