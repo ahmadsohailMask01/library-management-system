@@ -217,13 +217,13 @@ const BorrowalPage = () => {
   return (
     <>
       <Helmet>
-        <title>Reservations</title>
+        <title>Book Issues</title>
       </Helmet>
 
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h3" gutterBottom>
-            Reservations
+            Book Issues
           </Typography>
           <Button
             variant="contained"
@@ -233,7 +233,7 @@ const BorrowalPage = () => {
             }}
             startIcon={<Iconify icon="eva:plus-fill" />}
           >
-            New Reservation
+            Issue a Book
           </Button>
         </Stack>
         {isTableLoading ? (

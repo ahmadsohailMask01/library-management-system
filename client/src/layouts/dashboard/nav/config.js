@@ -27,7 +27,7 @@ const navConfig = [
     icon: <FiList />,
   },
   {
-    title: 'Reservations',
+    title: 'Book Issues',
     path: '/borrowals',
     icon: <FiCheckCircle />,
   },

@@ -127,7 +127,7 @@ const BorrowalForm = ({
       <Box sx={style}>
         <Container>
           <Typography variant="h4" textAlign="center" paddingBottom={2} paddingTop={1}>
-            {isUpdateForm ? <span>Update</span> : <span>Add</span>} Reservation
+            {isUpdateForm ? <span>Update</span> : <span>Add</span>} Book Issue
           </Typography>
           <Stack spacing={3} paddingY={2}>
             <Grid container spacing={0} sx={{ paddingBottom: '4px' }}>

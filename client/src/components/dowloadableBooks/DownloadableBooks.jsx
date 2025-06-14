@@ -296,7 +296,11 @@ const DownloadableBooks = () => {
           />
         </Grid>
       ) : null}
-      <h2 style={{ marginTop: '10px', textAlign: 'center' }}>Download Free Networking and Computer Books</h2>
+      <h2 style={{ marginTop: '10px', textAlign: 'center' }}>
+        {user.isAdmin
+          ? "Here's the list of Downloadable books for Users"
+          : 'Download Free Networking and Computer Books'}
+      </h2>
       <div
         className={styles.mainDiv}
         style={{
@@ -337,19 +341,21 @@ const DownloadableBooks = () => {
               />
             )}
             <h4 style={{ margin: '10px 0' }}>{book.title}</h4>
-            <button
-              onClick={() => handlePDFDownload(book.url)}
-              style={{
-                padding: '10px 15px',
-                borderRadius: '8px',
-                backgroundColor: '#15A5DF',
-                color: '#fff',
-                border: 'none',
-                cursor: 'pointer',
-              }}
-            >
-              Download PDF
-            </button>
+            {user.isAdmin ? null : (
+              <button
+                onClick={() => handlePDFDownload(book.url)}
+                style={{
+                  padding: '10px 15px',
+                  borderRadius: '8px',
+                  backgroundColor: '#15A5DF',
+                  color: '#fff',
+                  border: 'none',
+                  cursor: 'pointer',
+                }}
+              >
+                Download PDF
+              </button>
+            )}
           </div>
         ))}
       </div>
